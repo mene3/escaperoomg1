@@ -7,7 +7,7 @@
 </head>
 <body>
   
-  <video id="video" width="640" controls autoplay muted playsinline>
+  <video id="video" width="640" controls muted playsinline>
     <source src="video.mp4" type="video/mp4" />
     Tu navegador no soporta el vídeo.
   </video>
@@ -35,6 +35,10 @@
     const db = getDatabase(app);
 
     const video = document.getElementById("video");
+
+    // 🔹 Limpia el estado inicial (para evitar reproducir al recargar)
+    await set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+   
     // Escucha cambios en tiempo real
     onValue(ref(db, "trigger"), (snapshot) => {
       const data = snapshot.val();
