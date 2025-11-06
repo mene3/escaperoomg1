@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Escaneo QR</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>✅ Código escaneado</h1>
+  <p>Tu mensaje personalizado aquí.</p>
+  
+  <script>
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      databaseURL: "https://TU_DOMINIO.firebaseio.com",
+      projectId: "TU_ID",
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database(app);
+
+    // Envía la señal
+    firebase.database().ref("trigger").set({ play: true, timestamp: Date.now() });
+  </script>
+</body>
+</html>
