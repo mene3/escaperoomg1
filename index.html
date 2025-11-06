@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>Escaneo QR</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
 </head>
 <body>
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
   // Import the functions you need from the SDKs you need
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -26,10 +27,9 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-   //    const db = firebase.database(app);
-    firebase.database().ref("trigger").set({ play: true, timestamp: Date.now() })
-      .then(() => console.log("Trigger enviado"))
-      .catch(err => console.error("Error enviando trigger:", err));
+       const db = getDatabase(app);
+    await set(ref(db, "trigger"), { play: true, timestamp: Date.now() });
+    console.log("✅ Trigger enviado correctamente");
 </script>
   <h1>✅ Código escaneado</h1>
   <p>Tu mensaje personalizado aquí.</p>
