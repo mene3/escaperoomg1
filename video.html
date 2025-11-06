@@ -47,6 +47,9 @@
         video.play().catch(err => console.error("Playback bloqueado:", err));
       }
     });
+   video.addEventListener("ended", () => {
+  set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+  });
 </script>
   
 </body>
