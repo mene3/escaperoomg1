@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <title>Vídeo remoto</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
-  <script type="module">
+  
+  <video id="video" width="640" controls autoplay muted playsinline>
+    <source src="video.mp4" type="video/mp4" />
+    Tu navegador no soporta el vídeo.
+  </video>
+<script>
   // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,24 +30,22 @@
   };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-     //   const db = firebase.database(app);
+ firebase.initializeApp(firebaseConfig);
 
     const video = document.getElementById("video");
 
-    // Escucha en tiempo real
     firebase.database().ref("trigger").on("value", (snapshot) => {
       const data = snapshot.val();
       if (data && data.play) {
-        video.play();
+        // autoplay puede fallar si no está muted o si hay políticas del navegador.
+        video.play().then(() => {
+          console.log("Vídeo reproducido");
+        }).catch(err => {
+          console.error("Playback blocked:", err);
+        });
       }
     });
 </script>
-  <video id="video" width="640" controls autoplay muted playsinline>
-    <source src="video.mp4" type="video/mp4" />
-    Tu navegador no soporta el vídeo.
-  </video>
-
   
 </body>
 </html>
