@@ -13,12 +13,15 @@
   </video>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAwRuRAEiszBLwDajaDG51AI4HjMSe2Lh4",
-      authDomain: "escape-room-g1.firebaseapp.com",
-      databaseURL: "https://escape-room-g1-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "escape-room-g1",
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyAwRuRAEiszBLwDajaDG51AI4HjMSe2Lh4",
+  authDomain: "escape-room-g1.firebaseapp.com",
+  databaseURL: "https://escape-room-g1-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "escape-room-g1",
+  storageBucket: "escape-room-g1.firebasestorage.app",
+  messagingSenderId: "652279185289",
+  appId: "1:652279185289:web:ba75116458fdf92c092b58"
+};
 
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database(app);
