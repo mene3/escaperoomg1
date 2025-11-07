@@ -6,7 +6,7 @@
 
 </head>
 <body>
-    <h2>Reproductor sincronizado</h2>
+<!--    <h2>Reproductor sincronizado</h2> -->
   <p id="status">Pulsa el botón para preparar el vídeo</p>
 
   <button id="prepareBtn"
@@ -67,7 +67,8 @@
       const data = snapshot.val();
       if (data && data.play && interactionAllowed) {
         console.log("▶️ Reproduciendo por señal remota...");
-        status.textContent = "Reproduciendo vídeo...";
+//        status.textContent = "Reproduciendo vídeo...";
+        status.textContent = "";
         video.currentTime = 0;
         video.muted = false;
         video.play().catch(err => console.error("Playback bloqueado:", err));
