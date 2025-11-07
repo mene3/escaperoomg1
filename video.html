@@ -64,7 +64,7 @@
     // Escucha cambios en tiempo real
     onValue(ref(db, "trigger"), (snapshot) => {
       const data = snapshot.val();
-      if (data && data.play && interactionAllowed) {
+      if (data && data.video && interactionAllowed) {
         console.log("▶️ Reproduciendo por señal remota...");
 //        status.textContent = "Reproduciendo vídeo...";
         const videoName = data.video;
