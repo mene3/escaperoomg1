@@ -44,7 +44,7 @@
     const video = document.getElementById("video");
      const btn = document.getElementById("prepareBtn");
     const status = document.getElementById("status");
-
+    let interactionAllowed = false;
  // 1️⃣ El usuario pulsa el botón → habilitamos reproducción con sonido
     btn.addEventListener("click", async () => {
       try {
