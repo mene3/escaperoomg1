@@ -70,6 +70,7 @@
         const videoName = data.video;
         const videoSrc = `${videoName}.mp4`; // ruta donde guardas tus vídeos
         status.textContent = "";
+        video.src = videoSrc;
         video.currentTime = 0;
         video.muted = false;
         video.play().catch(err => console.error("Playback bloqueado:", err));
