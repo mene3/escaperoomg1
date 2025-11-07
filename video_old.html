@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Vídeo remoto</title>
 
+</head>
+<body>
+<!--    <h2>Reproductor sincronizado</h2>  -->
+  <p id="status">Pulsa el botón para preparar el vídeo</p>
+
+  <button id="prepareBtn"
+    style="padding:12px 24px; font-size:16px; margin:20px; border:none; border-radius:8px; cursor:pointer;">
+    🎬 Preparar vídeo
+  </button>
+  <br>
+  <video id="video" width="640" controls playsinline>
+    <source src="video.mp4" type="video/mp4" />
+    Tu navegador no soporta el vídeo.
+  </video>
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  // Import the functions you need from the SDKs you need
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAwRuRAEiszBLwDajaDG51AI4HjMSe2Lh4",
+    authDomain: "escape-room-g1.firebaseapp.com",
+    databaseURL: "https://escape-room-g1-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "escape-room-g1",
+    storageBucket: "escape-room-g1.firebasestorage.app",
+    messagingSenderId: "652279185289",
+    appId: "1:652279185289:web:ba75116458fdf92c092b58"
+  };
+
+  // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const video = document.getElementById("video");
+     const btn = document.getElementById("prepareBtn");
+    const status = document.getElementById("status");
+    let interactionAllowed = false;
+ // 1️⃣ El usuario pulsa el botón → habilitamos reproducción con sonido
+    btn.addEventListener("click", async () => {
+      try {
+        interactionAllowed = true;
+        btn.style.display = "none";
+        status.textContent = "Esperando señal del QR...";
+        await video.play();
+        video.pause();
+        console.log("Interacción registrada, autoplay habilitado.");
+      } catch (err) {
+        console.error("Error preparando video:", err);
+      }
+    });
+   
+    // 🔹 Limpia el estado inicial (para evitar reproducir al recargar)
+    await set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+   
+    // Escucha cambios en tiempo real
+    onValue(ref(db, "trigger"), (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.play && interactionAllowed) {
+        console.log("▶️ Reproduciendo por señal remota...");
+//        status.textContent = "Reproduciendo vídeo...";
+        status.textContent = "";
+        video.currentTime = 0;
+        video.muted = false;
+        video.play().catch(err => console.error("Playback bloqueado:", err));
+      }
+    });
+   video.addEventListener("ended", () => {
+  set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+  });
+</script>
+  
+</body>
+</html>
