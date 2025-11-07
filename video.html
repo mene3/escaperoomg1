@@ -59,7 +59,7 @@
     });
    
     // 🔹 Limpia el estado inicial (para evitar reproducir al recargar)
-    await set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+//    await set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
    
     // Escucha cambios en tiempo real
     onValue(ref(db, "trigger"), (snapshot) => {
