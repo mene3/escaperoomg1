@@ -28,8 +28,13 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
        const db = getDatabase(app);
+
+   // Extraer parámetro de la URL, ej: ?video=video2
+    const params = new URLSearchParams(window.location.search);
+    const videoName = params.get("video") || "video1"; // valor por defecto
+    
     await set(ref(db, "trigger"), { play: true, timestamp: Date.now() });
-    console.log("✅ Trigger enviado correctamente");
+    console.log("✅ Trigger enviado correctamente  ${videoName}");
 </script>
   <h1>✅ Código escaneado</h1>
   <p>Tu mensaje personalizado aquí.</p>
