@@ -18,14 +18,9 @@
         Tu navegador no soporta vídeo HTML5.
   </video>
  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyAwRuRAEiszBLwDajaDG51AI4HjMSe2Lh4",
     authDomain: "escape-room-g1.firebaseapp.com",
@@ -36,48 +31,51 @@
     appId: "1:652279185289:web:ba75116458fdf92c092b58"
   };
 
-  // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-    const video = document.getElementById("video");
-     const btn = document.getElementById("prepareBtn");
-    const status = document.getElementById("status");
-    let interactionAllowed = false;
- // 1️⃣ El usuario pulsa el botón → habilitamos reproducción con sonido
-    btn.addEventListener("click", async () => {
-      try {
-        interactionAllowed = true;
-        btn.style.display = "none";
-        status.textContent = "Esperando señal del QR...";
-        await video.play();
-        video.pause();
-        console.log("Interacción registrada, autoplay habilitado.");
-      } catch (err) {
-        console.error("Error preparando video:", err);
-      }
-    });
-   
-    // 🔹 Limpia el estado inicial (para evitar reproducir al recargar)
-//    await set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
-   
-    // Escucha cambios en tiempo real
-    onValue(ref(db, "trigger"), (snapshot) => {
-      const data = snapshot.val();
-      if (data && data.video && interactionAllowed) {
-        console.log("▶️ Reproduciendo por señal remota...");
-//        status.textContent = "Reproduciendo vídeo...";
-        const videoName = data.video;
-        const videoSrc = `${videoName}.mp4`; // ruta donde guardas tus vídeos
-        status.textContent = "";
-        video.src = videoSrc;
-        video.currentTime = 0;
-        video.muted = false;
-        video.play().catch(err => console.error("Playback bloqueado:", err));
-      }
-    });
-   video.addEventListener("ended", () => {
-  set(ref(db, "trigger"), null); // limpia el trigger
+  const video = document.getElementById("video");
+  const btn = document.getElementById("prepareBtn");
+  const status = document.getElementById("status");
+  let interactionAllowed = false;
+
+  // 🔹 Limpia cualquier valor previo de trigger
+  remove(ref(db, "trigger"))
+    .then(() => console.log("🔄 Trigger inicial limpiado"))
+    .catch(err => console.error("Error limpiando trigger:", err));
+
+  // 1️⃣ El usuario pulsa el botón → habilitamos reproducción con sonido
+  btn.addEventListener("click", async () => {
+    try {
+      interactionAllowed = true;
+      btn.style.display = "none";
+      status.textContent = "Esperando señal del QR...";
+      await video.play();
+      video.pause();
+      console.log("Interacción registrada, autoplay habilitado.");
+    } catch (err) {
+      console.error("Error preparando video:", err);
+    }
+  });
+
+  // 2️⃣ Escucha cambios en tiempo real desde Firebase
+  onValue(ref(db, "trigger"), (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.video && interactionAllowed) {
+      console.log("▶️ Reproduciendo por señal remota...");
+      const videoName = data.video;
+      const videoSrc = `${videoName}.mp4`;
+      status.textContent = "";
+      video.src = videoSrc;
+      video.currentTime = 0;
+      video.muted = false;
+      video.play().catch(err => console.error("Playback bloqueado:", err));
+    }
+  });
+
+  // 3️⃣ Al terminar, limpia el trigger para evitar repeticiones
+  video.addEventListener("ended", () => {
+    set(ref(db, "trigger"), null);
   });
 </script>
   
