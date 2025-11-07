@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Vídeo remoto 2</title>
 
+</head>
+<body>
+  
+  <video id="video" width="640" controls muted playsinline>
+    <source src="video.mp4" type="video/mp4" />
+    Tu navegador no soporta el vídeo.
+  </video>
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  // Import the functions you need from the SDKs you need
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAwRuRAEiszBLwDajaDG51AI4HjMSe2Lh4",
+    authDomain: "escape-room-g1.firebaseapp.com",
+    databaseURL: "https://escape-room-g1-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "escape-room-g1",
+    storageBucket: "escape-room-g1.firebasestorage.app",
+    messagingSenderId: "652279185289",
+    appId: "1:652279185289:web:ba75116458fdf92c092b58"
+  };
+
+  // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const video = document.getElementById("video");
+
+    // 🔹 Limpia el estado inicial (para evitar reproducir al recargar)
+    await set(ref(db, "trigger2"), { play: false, timestamp: Date.now() });
+   
+    // Escucha cambios en tiempo real
+    onValue(ref(db, "trigger2"), (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.play) {
+        console.log("▶️ Trigger 2 recibido: reproduciendo vídeo...");
+        video.play().catch(err => console.error("Playback bloqueado:", err));
+      }
+    });
+   video.addEventListener("ended", () => {
+  set(ref(db, "trigger2"), { play: false, timestamp: Date.now() });
+  });
+</script>
+  
+</body>
+</html>
