@@ -15,8 +15,7 @@
   </button>
   <br>
   <video id="video" width="640" controls playsinline>
-    <source src="video.mp4" type="video/mp4" />
-    Tu navegador no soporta el vídeo.
+        Tu navegador no soporta vídeo HTML5.
   </video>
  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -68,6 +67,8 @@
       if (data && data.play && interactionAllowed) {
         console.log("▶️ Reproduciendo por señal remota...");
 //        status.textContent = "Reproduciendo vídeo...";
+        const videoName = data.video;
+        const videoSrc = `${videoName}.mp4`; // ruta donde guardas tus vídeos
         status.textContent = "";
         video.currentTime = 0;
         video.muted = false;
@@ -75,7 +76,7 @@
       }
     });
    video.addEventListener("ended", () => {
-  set(ref(db, "trigger"), { play: false, timestamp: Date.now() });
+  set(ref(db, "trigger"), null); // limpia el trigger
   });
 </script>
   
