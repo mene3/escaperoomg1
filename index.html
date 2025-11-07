@@ -33,7 +33,7 @@
     const params = new URLSearchParams(window.location.search);
     const videoName = params.get("video") || "video"; // valor por defecto
     
-    await set(ref(db, "trigger"), { play: true, timestamp: Date.now() });
+    await set(ref(db, "trigger"), { video: videoName, timestamp: Date.now() });
     console.log("✅ Trigger enviado correctamente  ${videoName}");
 </script>
   <h1>✅ Código escaneado</h1>
