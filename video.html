@@ -93,14 +93,14 @@
         video.muted = false;
         
         // 🖥️ Intentar pantalla completa
-        if (video.requestFullscreen) {
+  /*     if (video.requestFullscreen) {
           await video.requestFullscreen();
         } else if (video.webkitRequestFullscreen) {
           await video.webkitRequestFullscreen();
         } else if (video.msRequestFullscreen) {
           await video.msRequestFullscreen();
         }
-        
+    */    
         await video.play();
         status.textContent = "";
         console.log("▶️ Reproduciendo:", pendingVideo);
