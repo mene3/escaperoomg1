@@ -14,9 +14,9 @@
 
   <br>
 
-  <video id="keepalive" autoplay muted loop playsinline>
+<!--  <video id="keepalive" autoplay muted loop playsinline>
     <source src="silencio.mp4" type="video/mp4">
-  </video>
+  </video>  -->
   
   <video id="video" width="640" controls playsinline style="max-width: 100vw; max-height: 100vh;">
     Tu navegador no soporta vídeo HTML5.
@@ -63,7 +63,7 @@
     // --- Al hacer clic el usuario ---
     btn.addEventListener("click", async () => {
       try {
-        keepalive.play(); // mantiene activo el permiso de autoplay
+  //      keepalive.play(); // mantiene activo el permiso de autoplay
         interactionAllowed = true;
         btn.style.display = "none";
         status.textContent = "Esperando señal del QR...";
