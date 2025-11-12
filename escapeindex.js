@@ -35,7 +35,7 @@ const imagen = document.getElementById("imagen");
 // 🔹 Si existe parámetro "image", la muestra en pantalla
 if (imageName) {
   // Puedes cambiar esta ruta según tu estructura
-  imagen.src = `${imageName}.png`; // o .png según tus archivos
+  imagen.src = `${imageName}.jpg`; // o .png según tus archivos
   imagen.style.display = "block";
 } else {
   imagen.style.display = "none";
