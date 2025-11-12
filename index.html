@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <title>Escaneo QR</title>
-
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      margin-top: 50px;
+    }
+    img {
+      max-width: 80%;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
+  <h2>¡Código escaneado!</h2>
+  <p id="mensaje"></p>
+  <img id="imagen" alt="Imagen del evento" />
+
   <script type="module" src="escapeindex.js"></script>
-  <h1>✅ Código escaneado</h1>
-  <p>Tu mensaje personalizado aquí.</p>
- 
 </body>
 </html>
