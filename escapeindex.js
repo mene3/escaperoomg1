@@ -23,6 +23,23 @@
    // Extraer parámetro de la URL, ej: ?video=video2
   const params = new URLSearchParams(window.location.search);
   const videoName = params.get("video") || "video1"; // valor por defecto
+  const imageName = params.get("image") || "imagen1";
+
+// 🔹 Referencias a elementos del DOM
+const mensaje = document.getElementById("mensaje");
+const imagen = document.getElementById("imagen");
+
+// 🔹 Muestra el mensaje en pantalla
+// mensaje.textContent = `Vídeo solicitado: ${videoName}`;
+
+// 🔹 Si existe parámetro "image", la muestra en pantalla
+if (imageName) {
+  // Puedes cambiar esta ruta según tu estructura
+  imagen.src = `images/${imageName}.png`; // o .png según tus archivos
+  imagen.style.display = "block";
+} else {
+  imagen.style.display = "none";
+}
     
   await set(ref(db, "trigger"), { video: videoName, timestamp: Date.now() });
   console.log(`✅ Trigger enviado correctamente  ${videoName}`);
