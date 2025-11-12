@@ -4,28 +4,26 @@
   <meta charset="UTF-8" />
   <title>Escaneo QR</title>
 <style>
-  html, body {
+ html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     width: 100%;
-    overflow: hidden; /* evita scroll */
-    background-color: #000; /* fondo negro si la imagen no cubre todo */
+    background-color: #000; /* fondo de seguridad */
+    text-align: center;
+  }
+
+  body {
     display: flex;
- /*   align-items: center;*/  /* descomentar si queremos que el texto aparezca centrado verticalmente */
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   img#imagen {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* llena toda la pantalla manteniendo proporción */
-    object-position: center center;
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 100%;           /* siempre ocupa todo el ancho visible */
+    height: auto;          /* mantiene proporción original */
+    display: block;        /* elimina espacios indeseados debajo de la imagen */
+    max-width: 100vw;      /* evita que desborde el ancho del viewport */
   }
-
   h2, p {
   /*  position: relative;*/
     z-index: 10; /* se muestran sobre la imagen */
