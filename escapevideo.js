@@ -45,7 +45,7 @@
 
         if (pendingVideo) {
           // Carga el vídeo real para obtener permiso de reproducción
-          video.src = `${pendingVideo}.m4v`;
+          video.src = `${pendingVideo}.mp4`;
           video.muted = true;
           await video.play();
           video.pause();
@@ -63,7 +63,7 @@
     async function playPendingVideo() {
       if (!pendingVideo) return;
       try {
-        video.src = `${pendingVideo}.m4v`;
+        video.src = `${pendingVideo}.mp4`;
         video.currentTime = 0;
         video.muted = false;
         
